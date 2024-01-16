@@ -1,5 +1,5 @@
-const { default: Link } = require("next/link")
 import styles from './links.module.css'
+import Navlink from './navLinks/navLinks'
 export default function Links(){
     const links = [
         {
@@ -20,11 +20,28 @@ export default function Links(){
         }
     ]
 
+    const session = true;
+    const isAdmin = true;
+
     return (
         <div className={styles.links}>
             {links.map ((link => (
-                <Link href={link.path} key={link.title}>{link.title}</Link>
+                <Navlink item={link} key={link.title}/>
             )))}
+            {
+                session ? (
+                    <>
+                    {
+                        isAdmin && (
+                            <Navlink item = {{title: "Admin", path: "/admin"}}/>
+                        )
+                    }
+                    <button className={styles.logout}>Logout</button>
+                    </>
+                ) : (
+                    <Navlink item = {{title: "Login", path: "/login"}} />
+                )
+            }
         </div>
     )
 }
