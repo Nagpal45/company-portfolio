@@ -1,5 +1,5 @@
 const { default: Link } = require("next/link")
-
+import styles from './links.module.css'
 export default function Links(){
     const links = [
         {
@@ -21,7 +21,7 @@ export default function Links(){
     ]
 
     return (
-        <div>
+        <div className={styles.links}>
             {links.map ((link => (
                 <Link href={link.path} key={link.title}>{link.title}</Link>
             )))}
