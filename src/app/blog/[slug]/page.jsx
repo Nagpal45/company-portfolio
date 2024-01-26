@@ -20,13 +20,12 @@ export default async function SinglePost({params}) {
   const post = await getPost(slug)
   return (
     <div className={styles.container}>
-      <div className={styles.imgContainer}>
-        <Image src="https://images.pexels.com/photos/9827841/pexels-photo-9827841.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="" fill className={styles.img}/>
-      </div>
+      {post.img && <div className={styles.imgContainer}>
+        <Image src={post.img} alt="" fill className={styles.img}/>
+      </div>}
       <div className={styles.textContainer}>
         <h1 className={styles.title}>{post?.title}</h1>
         <div className={styles.detail}>
-          <Image className={styles.avatar} src="/noavatar.png" alt="" width={50} height={50}/>
           {post && (
           <Suspense fallback = {<div>Loading...</div>}>
           <PostUser userId ={post.userId}/>
@@ -34,11 +33,11 @@ export default async function SinglePost({params}) {
           )}
           <div className={styles.detailText}>
             <span className={styles.detailTitle}>Published</span>
-            <span className={styles.detailValue}>17.01.2024</span>
+            <span className={styles.detailValue}>{post?.createdAt.toString().slice(4,16)}</span>
           </div>
         </div>
         <div className={styles.content}>
-          {post?.body}
+          {post?.desc}
         </div>
       </div>
     </div>
