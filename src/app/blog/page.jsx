@@ -1,21 +1,24 @@
 import Blogpost from '@/components/blogPost/blogPost'
 import styles from './blog.module.css'
+import { getPosts } from '@/lib/data'
 
-async function getData(){
-    const res = await fetch("https://jsonplaceholder.typicode.com/posts", 
-    // {cache: "no-store"} -> gives fresh data
-    // {next: {revalidate: 3600}} -> 
-    )
+// async function getData(){
+//     const res = await fetch("https://jsonplaceholder.typicode.com/posts", 
+//     // {cache: "no-store"} -> gives fresh data
+//     // {next: {revalidate: 3600}} -> 
+//     )
 
-    if(!res.ok){
-        throw new Error("Something went wrong")
-    }
+//     if(!res.ok){
+//         throw new Error("Something went wrong")
+//     }
 
-    return res.json()
-}
+//     return res.json()
+// }
 
 export default async function Blog(){
-    const posts = await getData()
+    // const posts = await getData()
+    const posts = await getPosts();
+
     return(
         <div className={styles.container}>
         {posts.map((post) => (
