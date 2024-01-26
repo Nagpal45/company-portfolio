@@ -2,6 +2,7 @@
 import { revalidatePath } from "next/cache";
 import { Post } from "./models";
 import { connectToDb } from "./utils";
+import { signOut } from "./auth";
 
 export const addPost = async (formData) =>{
     // "use server"
@@ -38,4 +39,8 @@ export const deletePost = async (formData) =>{
     }catch(err){
         console.log(err);
     }
+}
+
+export const handleLogout = async() =>{
+    await signOut();
 }
