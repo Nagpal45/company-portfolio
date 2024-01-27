@@ -13,7 +13,7 @@ export default async function Login() {
     <div className={styles.wrapper}>
       <form action={handleGithubLogin} className={styles.form}>
         <button>Login with github</button>
-      </form>
+      </form> 
       <LoginForm/>
     </div>
     </div>
