@@ -1,8 +1,9 @@
 "use server"
 import { revalidatePath } from "next/cache";
-import { Post } from "./models";
+import { Post, User } from "./models";
 import { connectToDb } from "./utils";
 import { signOut } from "./auth";
+import bcrypt from "bcrypt"
 
 export const addPost = async (formData) =>{
     // "use server"
@@ -43,4 +44,31 @@ export const deletePost = async (formData) =>{
 
 export const handleLogout = async() =>{
     await signOut();
+}
+
+export const register = async(formData) =>{
+    const {username, email, password, passwordRepeat, img} = Object.fromEntries(formData);
+
+    if(password != passwordRepeat){
+        return "Password doesn't match";
+    }
+
+    try{
+        connectToDb();
+        const user = await User.findOne({username});
+        if(user){
+            return "User exists";
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const newUser = new User({
+            username, email, password: hashedPassword, img
+        })
+        await newUser.save();
+        console.log("saved");
+    }catch(err){
+        console.log(err);
+    }
 }
