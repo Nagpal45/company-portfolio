@@ -2,7 +2,7 @@
 import { revalidatePath } from "next/cache";
 import { Post, User } from "./models";
 import { connectToDb } from "./utils";
-import { signOut } from "./auth";
+import { signIn, signOut } from "./auth";
 import bcrypt from "bcrypt"
 
 export const addPost = async (formData) =>{
@@ -46,18 +46,18 @@ export const handleLogout = async() =>{
     await signOut();
 }
 
-export const register = async(formData) =>{
+export const register = async(previousState, formData) =>{
     const {username, email, password, passwordRepeat, img} = Object.fromEntries(formData);
 
     if(password != passwordRepeat){
-        return "Password doesn't match";
+        return {error: "Passwords do not match"}
     }
 
     try{
         connectToDb();
         const user = await User.findOne({username});
         if(user){
-            return "User exists";
+            return {error: "Username already exists"}
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -67,8 +67,25 @@ export const register = async(formData) =>{
             username, email, password: hashedPassword, img
         })
         await newUser.save();
-        console.log("saved");
+        return {success: true};
     }catch(err){
         console.log(err);
+        return {error: "Something went wrong!"}
+    }
+}
+
+export const login = async(previousState, formData) =>{
+    const {username, password} = Object.fromEntries(formData);
+
+    try{
+        await signIn("credentials",{
+            username, password
+        })
+    }catch(err){
+        if(err.message.includes("CredentialsSignin")){
+            return {error: "Invalid username or password"}
+        }
+        throw err;
+        //prevent NEXT_REDIRECT error
     }
 }

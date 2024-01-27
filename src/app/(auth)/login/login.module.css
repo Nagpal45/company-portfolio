@@ -14,3 +14,12 @@
     gap: 30px;
     border-radius: 5px;
 }
+
+.form > button{
+    padding: 20px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+}
