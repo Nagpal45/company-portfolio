@@ -3,7 +3,7 @@ import styles from './blog.module.css'
 import { getPosts } from '@/lib/data'
 
 async function getData(){
-    const res = await fetch("http://localhost:3000/api/blog", 
+    const res = await fetch("https://company-portfolio-olive-gamma.vercel.app/api/blog", 
     // {cache: "no-store"} -> gives fresh data
     {next: {revalidate: 3600}}
     )

@@ -5,7 +5,7 @@ import { Suspense } from 'react'
 import { getPost } from '@/lib/data';
 
 async function getData(slug){
-  const res = await fetch(`http://localhost:3000/api/blog/${slug}`
+  const res = await fetch(`https://company-portfolio-olive-gamma.vercel.app/api/blog/${slug}`
   )
 
   if(!res.ok){
