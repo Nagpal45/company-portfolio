@@ -4,8 +4,8 @@ import { getPosts } from '@/lib/data'
 
 async function getData(){
     const res = await fetch("https://company-portfolio-olive-gamma.vercel.app/api/blog", 
-    // {cache: "no-store"} -> gives fresh data
-    {next: {revalidate: 3600}}
+    {cache: "no-store"}
+    // {next: {revalidate: 3600}}
     )
 
     if(!res.ok){
